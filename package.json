@@ -4,7 +4,7 @@
   "description": "Backend for the founderstudio.io app",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm install && tsc && cd page && npm install && ng build",
     "dev": "tsc && node dist/index.js",
     "dev1": "tsc -w",
     "dev2": "nodemon dist/index.js",

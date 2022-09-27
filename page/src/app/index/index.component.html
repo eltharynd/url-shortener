@@ -1,0 +1,8 @@
+<div class="container">
+  <mat-form-field appearance="fill">
+    <mat-label>URL</mat-label>
+    <input [(ngModel)]="url" type="text" matInput />
+  </mat-form-field>
+  <button (click)="generate()" mat-raised-button>SUBMIT</button>
+  <p (click)="copy()" style="text-align: center">{{ slug }}</p>
+</div>

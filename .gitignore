@@ -1,0 +1,28 @@
+# environment
+.env
+
+# compile output
+/dist
+/page/dist
+/tmp
+/out-tsc
+
+# dependencies
+node_modules
+.angular
+package-lock.json
+
+# profiling files
+chrome-profiler-events*.json
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# System Files
+.DS_Store
+Thumbs.db

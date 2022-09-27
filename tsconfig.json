@@ -1,0 +1,17 @@
+{
+  "include": ["src/**/*.ts", "src/**/*.json"],
+  "compileOnSave": false,
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noStrictGenericChecks": true,
+    "outDir": "dist/",
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "sourceMap": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "target": "es5"
+  }
+}

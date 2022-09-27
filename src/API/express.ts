@@ -107,7 +107,7 @@ export class Express {
       let link = await Links.create({ slug: uid(), url: req.body.url })
 
       await link.save()
-      res.send(`https://eltha.wtf/${link.slug}`)
+      res.send(`eltha.wtf/${link.slug}`)
     })
 
     //END

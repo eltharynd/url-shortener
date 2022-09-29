@@ -17,7 +17,7 @@ export class IndexComponent {
     if (!this.url || this.url.length <= 0) return
 
     this.slug = (
-      await axios.post('http://localhost:3010/create', { url: this.url })
+      await axios.post('https://eltha.wtf/create', { url: this.url })
     ).data
     this.copy()
   }

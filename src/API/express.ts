@@ -70,9 +70,7 @@ export class Express {
         if (slug === 'create') return next()
 
         let link = await Links.findOne({ slug: slug })
-        console.log(link)
         if (link) {
-          console.log(link.url)
           return res.redirect(301, link.url)
         }
       }

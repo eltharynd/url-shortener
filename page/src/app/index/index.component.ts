@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core'
-import { ClipboardService } from 'ngx-clipboard'
+import { Component } from '@angular/core'
 import axios from 'axios'
+import { ClipboardService } from 'ngx-clipboard'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-index',
@@ -17,7 +18,7 @@ export class IndexComponent {
     if (!this.url || this.url.length <= 0) return
 
     this.slug = (
-      await axios.post('https://eltha.wtf/create', { url: this.url })
+      await axios.post(`${environment.URL}create`, { url: this.url })
     ).data
     this.copy()
   }

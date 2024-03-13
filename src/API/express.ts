@@ -24,20 +24,15 @@ export class Express {
   constructor() {
     this.app = express()
     Express.origins = [
-      'http://localhost:3000',
       'http://localhost:4200',
-      'http://localhost:8000',
+      `http://localhost:${environment.PORT}`,
     ]
     if (environment.PRODUCTION) {
-      Express.origins = [
-        `https://${environment.DOMAIN}`,
-        `https://production.${environment.DOMAIN}`,
-      ]
+      Express.origins = [`https://${environment.DOMAIN}`]
     } else {
-      Express.origins.push(`https://${environment.DOMAIN}`)
-      Express.origins.push(`https://production.${environment.DOMAIN}`)
-      Express.origins.push(`https://staging.${environment.DOMAIN}`)
+      //Express.origins.push(`https://${environment.DOMAIN}`)
     }
+
     this.app.use(
       cors({
         origin: Express.origins,
@@ -59,42 +54,25 @@ export class Express {
 
     //THIS IS WHERE YOUR CUSTOM ROUTE CONTROLLERS GO
 
-    //TODO add the rest of it from v1
-    //TODO test data generation (DB init) for all of them
+    this.app.use('*', async (req, res, next) => {
+      if (/^\/api/g.test(req.originalUrl)) return next()
 
-    let staticRoot = __dirname + '/'
-    this.app.use(async function (req, res, next) {
-      if (/^\/[\d\w]*/i.test(req.path)) {
-        let slug = req.path.replace(/^\//, '').replace(/\/.*$/, '')
-        if (slug === 'create') return next()
+      try {
+        let link = await Links.findOne({
+          slug: req.originalUrl.replace(/^\//, ''),
+        })
 
-        let link = await Links.findOne({ slug: slug })
-        if (link) {
-          return res.redirect(301, link.url)
-        }
-      }
-      //if the request is not html then move along
-      var accept = req.accepts('html', 'json', 'xml')
-      if (accept !== 'html') {
-        return next()
-      }
-      // if the request has a '.' assume that it's for a file, move along
-      var ext = path.extname(req.path)
-      if (ext !== '') {
-        return next()
-      }
-      fs.createReadStream(staticRoot + 'index.html').pipe(res)
+        if (link) return res.redirect(301, link.url)
+      } catch {}
+
+      let base = path.join(process.cwd(), `page${path.sep}dist${path.sep}page`)
+      let proxied = path.join(base, req.originalUrl.replace(/\//i, path.sep))
+      if (!/\/$/i.test(req.originalUrl) && fs.existsSync(proxied)) {
+        return res.sendFile(proxied)
+      } else return res.sendFile(path.join(base, `${path.sep}index.html`))
     })
 
-    this.app.use(express.static(staticRoot))
-
-    this.app.use(express.static('../page/dist/page'))
-    this.app.set('view engine', 'pug')
-    this.app.get('/', (req, res) => {
-      res.sendfile('index.html', { root: __dirname })
-    })
-
-    this.app.post('/create', async (req, res) => {
+    this.app.post('/api/v1/create', async (req, res) => {
       if (
         !/(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/.test(
           req.body.url

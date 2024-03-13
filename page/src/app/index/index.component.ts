@@ -26,7 +26,7 @@ export class IndexComponent {
 
   constructor(private clipboard: ClipboardService) {}
 
-  async shorten() {
+  async shorten(formDirective?) {
     if (!this.formGroup.valid || this.busy) return
     this.busy = true
     this.slug = null
@@ -41,6 +41,8 @@ export class IndexComponent {
       .catch((e) => console.error(e))
       .finally(() => {
         this.busy = false
+        this.formGroup.reset()
+        formDirective.resetForm()
       })
   }
 

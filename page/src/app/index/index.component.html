@@ -9,7 +9,12 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="container">
-    <form class="url" [formGroup]="formGroup" (ngSubmit)="shorten()">
+    <form
+      class="url"
+      [formGroup]="formGroup"
+      (ngSubmit)="shorten(formDirective)"
+      #formDirective="ngForm"
+    >
       <mat-form-field appearance="outline">
         <mat-label>URL</mat-label>
         <input type="text" matInput formControlName="url" />

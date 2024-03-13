@@ -13,17 +13,26 @@ export class Link {
   url: string
 }
 
-const linksSchema: Schema = new Schema({
-  slug: {
-    type: String,
-    required: true,
-    unique: true,
+const linksSchema: Schema = new Schema(
+  {
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+    created: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  url: {
-    type: String,
-    required: true,
-  },
-})
+  {
+    versionKey: false,
+  }
+)
 
 export interface LinkModel extends Link, Document {
   _id: mongoose.Types.ObjectId

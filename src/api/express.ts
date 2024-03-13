@@ -65,7 +65,6 @@ export class Express {
       } catch {}
 
       try {
-        console.log(req.originalUrl.replace(/^\//, ''))
         let files = await Mongo.Uploads.find({
           'metadata.slug': req.originalUrl.replace(/^\//, ''),
         }).toArray()
@@ -76,7 +75,7 @@ export class Express {
             let readStream = Mongo.Uploads.openDownloadStream(file._id)
 
             res.set({
-              'Content-Disposition': `attachment; filename="${file.metadata.originalname}"`,
+              'Content-Disposition': `filename="${file.metadata.originalname}"`,
               'content-type': file.metadata.contentType,
               'Last-modified': file.uploadDate.toUTCString(),
             })

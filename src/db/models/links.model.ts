@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 export interface ILink {
   slug: string
@@ -15,4 +15,4 @@ const linksSchema: Schema = new Schema({
     required: true,
   },
 })
-export const Links = model<ILink>('Links', linksSchema)
+export const Links = model<ILink>('links', linksSchema)

@@ -1,6 +1,5 @@
-import { ReadStream } from 'fs'
-import { Schema, model, Types, Model } from 'mongoose'
-import * as multer from 'multer'
+/* import { ReadStream } from 'fs'
+import { Model, Schema, Types, model } from 'mongoose'
 
 interface IFileMetadata {
   //userId?: Types.ObjectId
@@ -77,7 +76,4 @@ export interface IUpload {
 
 //@ts-ignore
 export const Files: IFileModel = model<IFile>('Uploads.files', fileSchema)
-
-export const filesMiddleware = multer({
-  storage: multer.memoryStorage(),
-}).single('file')
+ */

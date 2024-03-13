@@ -1,10 +1,10 @@
-import environment from '../environment'
-import * as express from 'express'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import fs from 'fs'
 import { createServer, Server } from 'http'
-import * as cors from 'cors'
-import * as fs from 'fs'
-import * as path from 'path'
-import * as cookieParser from 'cookie-parser'
+import path from 'path'
+import environment from '../environment'
 require('express-async-errors')
 
 import ShortUniqueId from 'short-unique-id'
@@ -12,10 +12,9 @@ const uid = new ShortUniqueId({ length: 8 })
 
 import { INTERNAL_SERVER_ERROR, sendDefaultMessage } from '../messages/defaults'
 
-import { UploadsRoutes } from './routes/uploads.routes'
 import { Links } from '../db/models/links.model'
 
-const __dirname = './page/dist/page'
+__dirname = './page/dist/page'
 export class Express {
   app: express.Express
   server: Server
@@ -29,15 +28,15 @@ export class Express {
       'http://localhost:4200',
       'http://localhost:8000',
     ]
-    if (environment.production) {
+    if (environment.PRODUCTION) {
       Express.origins = [
-        `https://${environment.domain}`,
-        `https://production.${environment.domain}`,
+        `https://${environment.DOMAIN}`,
+        `https://production.${environment.DOMAIN}`,
       ]
     } else {
-      Express.origins.push(`https://${environment.domain}`)
-      Express.origins.push(`https://production.${environment.domain}`)
-      Express.origins.push(`https://staging.${environment.domain}`)
+      Express.origins.push(`https://${environment.DOMAIN}`)
+      Express.origins.push(`https://production.${environment.DOMAIN}`)
+      Express.origins.push(`https://staging.${environment.DOMAIN}`)
     }
     this.app.use(
       cors({
@@ -56,7 +55,7 @@ export class Express {
     )
     this.app.use(cookieParser())
 
-    new UploadsRoutes('uploads', this.app)
+    //new UploadsRoutes('uploads', this.app)
 
     //THIS IS WHERE YOUR CUSTOM ROUTE CONTROLLERS GO
 

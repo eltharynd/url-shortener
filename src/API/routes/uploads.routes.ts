@@ -1,4 +1,4 @@
-import { Router } from 'express'
+/* import { Router } from 'express'
 import { Mongo } from '../../db/mongo'
 
 import { NOT_FOUND, sendDefaultMessage } from '../../messages/defaults'
@@ -37,3 +37,4 @@ export class UploadsRoutes extends Routes {
     })
   }
 }
+ */

@@ -1,8 +1,108 @@
-<div class="container">
-  <mat-form-field appearance="fill">
-    <mat-label>URL</mat-label>
-    <input [(ngModel)]="url" type="text" matInput />
-  </mat-form-field>
-  <button (click)="generate()" mat-raised-button>SUBMIT</button>
-  <p (click)="copy()" style="text-align: center">{{ slug }}</p>
-</div>
+<h1>eltha WTF</h1>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Shorten URL</mat-card-title>
+    <mat-card-subtitle>
+      Use this to create a short link that redirects to whatever page you
+      need...
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="container">
+    <form class="url" [formGroup]="formGroup" (ngSubmit)="shorten()">
+      <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input type="text" matInput formControlName="url" />
+        <button
+          matSuffix
+          mat-icon-button
+          type="submit"
+          aria-label="Clear"
+          [disabled]="!formGroup.valid || busy"
+          [class.disabled]="!formGroup.valid || busy"
+        >
+          <mat-icon color="primary">send</mat-icon>
+        </button>
+        <mat-error>
+          {{ formGroup.get('url') | formControlError }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <div
+      class="result"
+      (click)="copy()"
+      [class.hovered]="hovered"
+      [class.clicked]="copying"
+    >
+      <div
+        *ngIf="slug"
+        [matTooltip]="'Click here to copy text'"
+        (mouseenter)="hovered = true"
+        (mouseleave)="hovered = false"
+        (mousedown)="copying = true"
+        (mouseup)="copying = false"
+      >
+        {{ slug }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Upload Image</mat-card-title>
+    <mat-card-subtitle
+      >Use this to upload an image with a link to it</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <div class="uploader">
+      <input
+        #uploader
+        class="file-input"
+        type="file"
+        accept="image/*"
+        (change)="uploadFile($event)"
+      />
+
+      <button
+        matSuffix
+        mat-icon-button
+        type="submit"
+        aria-label="Clear"
+        [disabled]="!formGroup.valid || busy"
+        [class.disabled]="!formGroup.valid || busy"
+      >
+        <mat-icon color="primary">send</mat-icon>
+      </button>
+    </div>
+    <div class="error">{{ imageError }}&nbsp;</div>
+    <div
+      class="result image"
+      (click)="imageCopy()"
+      [class.hovered]="imageHovered"
+      [class.clicked]="imageCopying"
+    >
+      <div
+        *ngIf="imageSlug"
+        [matTooltip]="'Click here to copy text'"
+        (mouseenter)="imageHovered = true"
+        (mouseleave)="imageHovered = false"
+        (mousedown)="imageCopying = true"
+        (mouseup)="imageCopying = false"
+      >
+        {{ imageSlug }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<p>
+  We (I) don't track anything, but you'll just have to take my word for it...
+</p>
+<p>
+  <a href="https://github.com/eltharynd/url-shortener" target="_blank"
+    >Github - eltharynd</a
+  >
+</p>

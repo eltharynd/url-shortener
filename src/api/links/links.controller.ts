@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString, Matches } from 'class-validator'
 import { Body, JsonController, Post } from 'routing-controllers'
 import ShortUniqueId from 'short-unique-id'
+import environment from '../../environment'
 import { Links } from './links.model'
 
 const { randomUUID } = new ShortUniqueId({ length: 8 })
@@ -22,6 +23,10 @@ export class LinksController {
 
     await link.save()
 
-    return `https://eltha.wtf/${link.slug}`
+    return `${
+      environment.DOMAIN === 'localhost'
+        ? `http://localhost:${environment.PORT}/`
+        : `https://${environment.DOMAIN}/`
+    }${link.slug}`
   }
 }

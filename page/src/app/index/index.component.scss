@@ -1,9 +1,89 @@
-.container {
-  display: flex;
+h1 {
+  max-width: 42rem;
+  text-align: center;
   margin: auto;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  padding: 4rem;
-  gap: 1rem;
+  margin-top: 2rem;
+
+  color: rgb(218, 226, 231);
+}
+
+mat-card {
+  max-width: 42rem;
+  margin: 2rem auto;
+  padding: 2rem 4rem;
+
+  > mat-card-header {
+    user-select: none;
+  }
+
+  > mat-card-content {
+    > .url {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: space-between;
+
+      > mat-form-field {
+        flex-grow: 1;
+      }
+    }
+
+    > .result {
+      width: 15rem;
+      margin: auto;
+
+      border: 1px solid rgba(0, 0, 0, 0.7);
+      flex-grow: 0;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      height: 1rem;
+      text-align: center;
+
+      > div {
+        cursor: copy;
+      }
+
+      &.hovered {
+        background-color: rgb(204, 226, 213);
+      }
+      &.clicked {
+        background-color: rgb(160, 214, 182);
+      }
+
+      &.image {
+        margin-top: 1.5rem;
+      }
+    }
+
+    > .uploader {
+      display: flex;
+      align-items: center;
+
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      padding-left: 0.6rem;
+
+      border-radius: 6px;
+
+      gap: 2rem;
+      > input {
+        width: 100%;
+      }
+    }
+
+    > .error {
+      color: #f44336;
+      font-size: 10.5px;
+      padding: 4px 10px;
+    }
+  }
+}
+
+p {
+  max-width: 42rem;
+  text-align: center;
+  margin: auto;
+  margin-top: 2rem;
+
+  color: rgb(218, 226, 231);
 }

@@ -9,7 +9,10 @@ require('express-async-errors')
 import { createExpressServer } from 'routing-controllers'
 import { Mongo, MongoInterceptor } from '../mongo'
 import Logger from '../util/logger'
-import { DefaultInterceptor } from './interceptors/default.interceptor'
+import {
+  DefaultInterceptor,
+  INTERNAL_SERVER_ERROR,
+} from './interceptors/default.interceptor'
 import { LinksController } from './links/links.controller'
 import { HttpErrorHandler } from './middlewares/error.middleware'
 import { LoggerMiddleware } from './middlewares/logger.middleware'
@@ -62,11 +65,30 @@ export class Express {
       } catch {}
 
       try {
-        let file = await Mongo.Uploads.find({
+        console.log(req.originalUrl.replace(/^\//, ''))
+        let files = await Mongo.Uploads.find({
           'metadata.slug': req.originalUrl.replace(/^\//, ''),
         }).toArray()
-        if (file?.length > 0) {
-          return next()
+
+        if (files?.length > 0) {
+          let file = files[0]
+          return new Promise<void>((resolve, reject) => {
+            let readStream = Mongo.Uploads.openDownloadStream(file._id)
+
+            res.set({
+              'Content-Disposition': `attachment; filename="${file.metadata.originalname}"`,
+              'content-type': file.metadata.contentType,
+              'Last-modified': file.uploadDate.toUTCString(),
+            })
+            readStream.on('error', (e) => {
+              reject(new INTERNAL_SERVER_ERROR(e))
+            })
+            readStream.on('end', () => {
+              resolve()
+            })
+
+            readStream.pipe(res)
+          })
         }
       } catch {}
 

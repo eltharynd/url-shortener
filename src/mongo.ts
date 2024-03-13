@@ -1,12 +1,13 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
 import mongoose from 'mongoose'
-import environment from '../environment'
-import Logger from '../util/logger'
+import { Action, Interceptor, InterceptorInterface } from 'routing-controllers'
+import environment from './environment'
+import Logger from './util/logger'
 
 export class Mongo {
   private connection: mongoose.Connection
-  static Uploads //: mongoose.mongo.GridFSBucket
+  static Uploads: mongoose.mongo.GridFSBucket
 
   async connect(): Promise<boolean> {
     if (this.connection) return true
@@ -37,7 +38,6 @@ export class Mongo {
           .then(async ({ connection }) => {
             this.connection = connection
             Mongo.Uploads = new mongoose.mongo.GridFSBucket(connection.db)
-            //await Mongo.populateMockData()
             resolve(true)
           })
           .catch((e) => {
@@ -74,5 +74,31 @@ export class Mongo {
       if (id.length === 24) return new mongoose.Types.ObjectId(id)
       else return null
     else return id
+  }
+}
+
+@Interceptor()
+export class MongoInterceptor implements InterceptorInterface {
+  intercept(action: Action, content: any) {
+    if (Array.isArray(content)) {
+      for (let e of content) {
+        if (e instanceof mongoose.Model) {
+          content[content.indexOf(e)] = JSON.parse(JSON.stringify(e))
+        } else {
+          try {
+            content[content.indexOf(e)] = JSON.parse(JSON.stringify(e))
+          } catch {
+            break
+          }
+        }
+      }
+    } else if (content instanceof mongoose.Model) {
+      content = JSON.parse(JSON.stringify(content))
+    } else {
+      try {
+        return JSON.parse(JSON.stringify(content))
+      } catch {}
+    }
+    return content
   }
 }

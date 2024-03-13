@@ -18,7 +18,7 @@ export class IndexComponent {
     if (!this.url || this.url.length <= 0) return
 
     this.slug = (
-      await axios.post(`${environment.URL}create`, { url: this.url })
+      await axios.post(`${environment.URL}links`, { url: this.url })
     ).data
     this.copy()
   }

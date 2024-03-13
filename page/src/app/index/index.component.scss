@@ -12,6 +12,18 @@ mat-card {
   margin: 2rem auto;
   padding: 2rem 4rem;
 
+  @media screen and (max-width: 600px) {
+    padding: 2rem 2rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 2rem 1rem;
+  }
+
+  @media screen and (max-width: 400px) {
+    padding: 2rem 0.5rem;
+  }
+
   > mat-card-header {
     user-select: none;
   }
@@ -29,7 +41,7 @@ mat-card {
     }
 
     > .result {
-      width: 15rem;
+      max-width: 15rem;
       margin: auto;
 
       border: 1px solid rgba(0, 0, 0, 0.7);

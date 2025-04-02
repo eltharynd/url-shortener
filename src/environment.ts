@@ -2,7 +2,9 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-  PRODUCTION: /true/i.test(process.env.production || process.env.PRODUCTION),
+  PRODUCTION: /true/i.test(
+    process.env.production || process.env.PRODUCTION || 'false'
+  ),
   DEBUGGING: /true/i.test(process.env.DEBUGGING || 'false'),
   TESTING:
     /test/i.test(process.env.NODE_ENV) || /true/i.test(process.env.TESTING),

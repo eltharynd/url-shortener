@@ -9,7 +9,7 @@ RUN npx tsc
 
 WORKDIR /app/package
 RUN npm install
-RUN ng build
+RUN npx ng build
 
 WORKDIR /app
 

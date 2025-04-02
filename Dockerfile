@@ -7,7 +7,7 @@ COPY . .
 RUN touch .env
 RUN npx tsc
 
-WORKDIR /app/package
+WORKDIR /app/page
 RUN npm install
 RUN npx ng build
 

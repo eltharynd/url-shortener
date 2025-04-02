@@ -1,4 +1,4 @@
-FROM node:slim AS runner
+FROM node:20.11-slim AS runner
 
 WORKDIR /app
 COPY package*.json ./

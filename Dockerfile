@@ -7,5 +7,11 @@ COPY . .
 RUN touch .env
 RUN npx tsc
 
+WORKDIR /app/package
+RUN npm install
+RUN ng build
+
+WORKDIR /app
+
 EXPOSE 3000
 CMD ["node", "dist/index.js"]

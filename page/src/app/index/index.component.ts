@@ -19,12 +19,31 @@ export class IndexComponent {
     url: new FormControl('', [
       Validators.required,
       Validators.pattern(
-        /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/
+        /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/,
       ),
     ]),
   })
 
-  constructor(private clipboard: ClipboardService) {}
+  linked: number = 0
+  uploaded: number = 0
+
+  constructor(private clipboard: ClipboardService) {
+    axios
+      .get(`${environment.URL}links`)
+      .then(({ data }) => {
+        this.linked = data
+        console.log(this.linked)
+      })
+      .catch((e) => console.error(e))
+
+    axios
+      .get(`${environment.URL}uploads`)
+      .then(({ data }) => {
+        this.uploaded = data
+        console.log(this.uploaded)
+      })
+      .catch((e) => console.error(e))
+  }
 
   async shorten(formDirective?) {
     if (!this.formGroup.valid || this.busy) return

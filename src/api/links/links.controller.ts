@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, Matches } from 'class-validator'
-import { Body, JsonController, Post } from 'routing-controllers'
+import { Body, JsonController, Post, Get } from 'routing-controllers'
 import ShortUniqueId from 'short-unique-id'
 import environment from '../../environment'
 import { Links } from './links.model'
@@ -28,5 +28,10 @@ export class LinksController {
         ? `http://localhost:${environment.PORT}/`
         : `https://${environment.DOMAIN}/`
     }${link.slug}`
+  }
+
+  @Get(`/`)
+  async shortened() {
+    return `${await Links.countDocuments()}`
   }
 }

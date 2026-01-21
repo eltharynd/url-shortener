@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseBefore } from 'routing-controllers'
+import { Controller, Get, Post, Req, UseBefore } from 'routing-controllers'
 import ShortUniqueId from 'short-unique-id'
 import { Readable } from 'stream'
 import environment from '../../environment'
@@ -44,11 +44,16 @@ export class UploadsController {
               environment.DOMAIN === 'localhost'
                 ? `http://localhost:${environment.PORT}/`
                 : `https://${environment.DOMAIN}/`
-            }${slug}`
+            }${slug}`,
           )
       })
 
       readStream.pipe(stream)
     })
+  }
+
+  @Get(`/`)
+  async uploaded() {
+    return `${(await Mongo.Uploads.find({}).toArray()).length}`
   }
 }
